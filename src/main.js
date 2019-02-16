@@ -1,10 +1,17 @@
 import Vue from 'vue'
 import vee from 'vee-validate';
-import task2 from './components/task2.vue'
+import task2 from './task2.vue';
+import task3 from './task3.vue';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-Vue.config.productionTip = false
+library.add(faSort, faSortUp, faSortDown);
+
+Vue.config.productionTip = false;
 Vue.use(vee);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
-  render: h => h(task2),
+  render: h => h(task3),
 }).$mount('#app')

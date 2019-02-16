@@ -3,7 +3,7 @@
     <h1>{{title}}</h1>
     <ul>
       <li v-for="(item, key) in items" :id="item.id">
-        {{item.name}}
+        {{item.name}} - {{item.email}} - Amount: {{item.amount}}
         <button v-on:click="remove(key)">Remove</button>
       </li>
     </ul>
@@ -11,16 +11,26 @@
     <form @submit.prevent="addNew()">
       <div class="form-element">
         <label for="message">Type name:</label>
-        <input id="message" name="message" type="text" v-model="message" v-validate="'required|min:3'"/>
+        <input id="message" name="message" type="text" v-model="form.message" v-validate="'required|min:3'"/>
         <span v-show="errors.has('message')" class="error">
-        {{errors.first('message')}}
+        {{ errors.first('message') }}
       </span>
       </div>
       <div class="form-element">
         <label for="email">Email:</label>
-        <input id="email" name="email" type="email" v-model="email" v-validate="'email'"/>
-        <span v-show="errors.has('email')"
+        <input id="email" name="email" type="email" v-model="form.email" v-validate="'required|email'"/>
+        <span v-show="errors.has('email')" class="error">
+          {{ errors.first('email') }}
+        </span>
       </div>
+      <div class="form-element">
+        <label for="amount">Amount:</label>
+        <input id="amount" name="amount" type="number" v-model="form.amount" v-validate="'required|integer|min_value:1'"/>
+        <span v-show="errors.has('amount')" class="error">
+          {{ errors.first('amount') }}
+        </span>
+      </div>
+
       <button>Add new</button>
     </form>
   </section>
@@ -32,7 +42,11 @@
     data() {
       return {
         title: 'Task 1',
-        message: null,
+        form: {
+          message: null,
+          email: null,
+          amount: null
+        },
         lastId: 3,
         items: [
           {
@@ -57,20 +71,22 @@
       }
     },
     methods: {
-      addNew(item) {
+      addNew() {
         this.$validator.validateAll().then(result => {
           if (!result) {
             return;
           }
           this.lastId++;
-          if (this.message) {
-            item = this.message;
-          }
           this.items.push({
             id: this.lastId,
-            name: item
+            ...this.form
           });
           this.$validator.reset();
+          this.form = {
+            message: null,
+            email: null,
+            amount: null
+          }
         });
       },
       remove(key) {

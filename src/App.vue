@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import task2 from './components/task2.vue'
+import task2 from './task2.vue'
 
 export default {
   name: 'app',

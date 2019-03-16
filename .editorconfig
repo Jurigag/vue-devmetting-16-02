@@ -2,3 +2,6 @@ root = true
 [*.vue]
 indent_size = tab
 tab_width = 2
+[*.js]
+indent_size = tab
+tab_width = 2

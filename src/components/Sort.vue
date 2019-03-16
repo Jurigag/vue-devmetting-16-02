@@ -19,9 +19,7 @@
     },
     methods: {
       changeSort(key, type) {
-        console.log(key);
-        console.log(type);
-        this.$emit('change-sort', key, type);
+        this.$store.dispatch('sort', key, type);
       }
     }
   }

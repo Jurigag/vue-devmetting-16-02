@@ -1,25 +1,41 @@
 <template>
   <form @submit.prevent="addNew()">
     <div class="form-element">
-      <label for="message">Type name:</label>
-      <input id="message" name="message" type="text" v-model="form.name" v-validate="'required|min:3'"/>
-      <span v-show="errors.has('message')" class="error">
-                    {{ errors.first('message') }}
+      <label for="question">Question:</label>
+      <input id="question" name="question" type="text" v-model="form.question" v-validate="'required|min:3'"/>
+      <span v-show="errors.has('question')" class="error">
+                    {{ errors.first('question') }}
                 </span>
     </div>
     <div class="form-element">
-      <label for="email">Email:</label>
-      <input id="email" name="email" type="email" v-model="form.email" v-validate="'required|email'"/>
-      <span v-show="errors.has('email')" class="error">
-                    {{ errors.first('email') }}
+      <label for="category">Category:</label>l
+      <input id="category" name="category" type="text" v-model="form.category.title" v-validate="'required|min:3'"/>
+      <span v-show="errors.has('category')" class="error">
+                    {{ errors.first('category') }}
                 </span>
     </div>
     <div class="form-element">
-      <label for="amount">Amount:</label>
-      <input id="amount" name="amount" type="number" v-model="form.amount"
-             v-validate="'required|integer|min_value:1'"/>
-      <span v-show="errors.has('amount')" class="error">
-                    {{ errors.first('amount') }}
+      <label for="airdate">Airdate:</label>
+      <input id="airdate" name="airdate" type="text" v-model="form.airdate"
+             v-validate="'required|min:3'"/>
+      <span v-show="errors.has('airdate')" class="error">
+                    {{ errors.first('airdate') }}
+                </span>
+    </div>
+    <div class="form-element">
+      <label for="answer">Answer:</label>
+      <input id="answer" name="answer" type="text" v-model="form.answer"
+             v-validate="'required|min:3'"/>
+      <span v-show="errors.has('answer')" class="error">
+                    {{ errors.first('answer') }}
+                </span>
+    </div>
+    <div class="form-element">
+      <label for="difficulty">Answer:</label>
+      <input id="difficulty" name="difficulty" type="text" v-model="form.value"
+             v-validate="'required|min:3'"/>
+      <span v-show="errors.has('difficulty')" class="error">
+                    {{ errors.first('difficulty') }}
                 </span>
     </div>
 
@@ -34,9 +50,13 @@
       return {
         lastId: 3,
         form: {
-          name: null,
-          email: null,
-          amount: null
+          question: null,
+          category: {
+            title:null
+          },
+          airdate: null,
+          answer: null,
+          value: null
         },
       }
     },
@@ -47,15 +67,16 @@
             return;
           }
           this.lastId++;
-          this.$emit('add', {
-            id: this.lastId,
-            ...this.form
-          });
+          this.$store.dispatch('add', this.form);
           this.$validator.reset();
           this.form = {
-            name: null,
-            email: null,
-            amount: null
+            question: null,
+            category: {
+              title:null
+            },
+            airdate: null,
+            answer: null,
+            value: null
           }
         });
       },

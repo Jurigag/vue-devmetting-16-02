@@ -3,17 +3,31 @@
     <table v-if="items.length">
       <thead>
       <tr>
-        <th>Name<sort :sort="sort.name" :fieldName="'name'" @change-sort="onChangeSort"/></th>
-        <th>Email<sort :sort="sort.email" :fieldName="'email'" @change-sort="onChangeSort"></sort></th>
-        <th>Amount<sort :sort="sort.amount" :fieldName="'amount'" @change-sort="onChangeSort"></sort></th>
+        <th>Question
+          <sort :sort="sort.question" :fieldName="'question'"/>
+        </th>
+        <th>Category
+          <sort :sort="sort.category" :fieldName="'category'"></sort>
+        </th>
+        <th>Answer
+          <sort :sort="sort.answer" :fieldName="'answer'"></sort>
+        </th>
+        <th>Air Date
+          <sort :sort="sort.airdate" :fieldName="'airdate'"></sort>
+        </th>
+        <th>Difficulty
+          <sort :sort="sort.value" :fieldName="'difficulty'"></sort>
+        </th>
         <th>Actions</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(item, key) in items" :id="item.id">
-        <td>{{item.name}}</td>
-        <td>{{item.email}}</td>
-        <td>{{item.amount}}</td>
+        <td>{{item.question}}</td>
+        <td>{{item.category.title}}</td>
+        <td>{{item.answer}}</td>
+        <td>{{item.airdate}}</td>
+        <td>{{item.value}}</td>
         <td>
           <button v-on:click="remove(key)">Remove</button>
         </td>
@@ -26,6 +40,7 @@
 
 <script>
   import Sort from "@/components/Sort";
+  import store from '../stores/clues';
 
   export default {
     name: 'List',
@@ -35,9 +50,11 @@
     data() {
       return {
         sort: {
-          name: '',
-          amount: '',
-          email: ''
+          question: '',
+          category: '',
+          answer: '',
+          airdate: '',
+          difficulty: ''
         }
       }
     },
@@ -48,28 +65,23 @@
     },
     methods: {
       remove(key) {
-        this.$emit('remove', key);
+        this.$store.dispatch('remove', key);
       },
-      onChangeSort(key, type) {
-        this.sort[key] = type;
-        console.log(key);
-        this.$emit('change-sort', key, type);
-      }
     }
   }
 </script>
 
 <style scoped>
   div {
-    margin-bottom:10px;
+    margin-bottom: 10px;
   }
 
   table {
     border-collapse: collapse;
   }
 
-  td,th {
-    padding:5px;
-    border:1px solid;
+  td, th {
+    padding: 5px;
+    border: 1px solid;
   }
 </style>
